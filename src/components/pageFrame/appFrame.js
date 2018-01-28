@@ -4,13 +4,17 @@ import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import './App.css';
 
 import {
-  Link
+  Link,
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch
 } from 'react-router-dom'
+import notFound from '../errorPage/notFound';
 const { Header, Content, Footer, Sider } = Layout;
 
 
 const SubMenu = Menu.SubMenu;
-
 class AppFrame extends React.Component {
   state = {
     collapsed: false,
@@ -19,7 +23,10 @@ class AppFrame extends React.Component {
     console.log(collapsed);
     this.setState({ collapsed });
   }
+
   render() {
+    let props = this.props;
+    console.log('props----', props)
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
@@ -28,20 +35,20 @@ class AppFrame extends React.Component {
           onCollapse={this.onCollapse}
         >
           <div className="logo">滴滴优点TOB项目</div>
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-            <Menu.Item key="1">
+          <Menu theme="dark" defaultSelectedKeys={[props.location.pathname]} mode="inline">
+            <Menu.Item key="/home/test'">
               <Icon type="pie-chart" />
-              <Link to="/test">跳转</Link>  
+              <Link to='/home/test'><span>HOME</span></Link>  
             </Menu.Item>
-            <Menu.Item key="2">
+            <Menu.Item key="/home/more">
               <Icon type="desktop" />
-              <span>Option 2</span>
+              <Link to={`/home/more`}><span>MORE</span></Link>
             </Menu.Item>
             <SubMenu
               key="sub1"
               title={<span><Icon type="user" /><span>User</span></span>}
             >
-              <Menu.Item key="3">Tom</Menu.Item>
+              <Menu.Item key="3"><Link to='/more'><span>MORE</span></Link></Menu.Item>
               <Menu.Item key="4">Bill</Menu.Item>
               <Menu.Item key="5">Alex</Menu.Item>
             </SubMenu>
@@ -60,18 +67,23 @@ class AppFrame extends React.Component {
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }} />
-          <Content style={{ margin: '0 16px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Bill</Breadcrumb.Item>
-            </Breadcrumb>
-            <div style={{ padding: 24, background: '#fff', minHeight: 'calc(100vh - 160px)' }}>
-              -----
-            </div>
-          </Content>
-          {/* <Footer style={{ textAlign: 'center' }}>
-            ToB项目测试结构
-          </Footer> */}
+            <Content style={{ margin: '0 16px' }}>
+              <Breadcrumb style={{ margin: '16px 0' }}>
+                <Breadcrumb.Item>User</Breadcrumb.Item>
+                <Breadcrumb.Item>Bill</Breadcrumb.Item>
+              </Breadcrumb>
+              <div style={{ padding: 24, background: '#fff', minHeight: 'calc(100vh - 160px)' }}>
+              <Switch>
+                {props.routes.map((childRoute, index) => (<Route 
+                      key={index}
+                      path={childRoute.path}
+                      render={ props => (<childRoute.component {...props} />) }
+                    />)
+                  )}
+                <Route component={notFound}></Route>
+                </Switch>
+              </div>
+            </Content>
         </Layout>
       </Layout>
     );

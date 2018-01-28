@@ -1,32 +1,32 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 import {
     BrowserRouter as Router,
     Route,
     Link,
     Redirect,
+    Switch,
     withRouter
   } from 'react-router-dom'
-import './index.css';
-// import App from './App';
-import registerServiceWorker from './registerServiceWorker';
-
+import './index.css'
+import registerServiceWorker from './registerServiceWorker'
+import notFound from './components/errorPage/notFound'
 import routes from './moduleRouters'
-
-
 
 let RoutesConfig = () => (
     <Router>
-        <div>
+        <Switch>
             {routes.map((route, index) => 
                 <Route
                     key={index}
                     path={route.path}
+                    exact={route.exact}
                     render={ props => (
                         <route.component {...props} routes={route.routes} />
                     )}
                 />)}
-        </div>
+            {/* <Route component={notFound}></Route> */}
+        </Switch>
     </Router>
 )
 ReactDOM.render(<RoutesConfig />, document.getElementById('root'));
