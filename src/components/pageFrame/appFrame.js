@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
-import './App.css';
+import React, { Component } from 'react'
+import logo from './logo.svg'
+import { Layout, Menu, Breadcrumb, Icon } from 'antd'
+import { observer  } from 'mobx-react'
+import './App.css'
 
 import {
   Link,
@@ -10,11 +11,14 @@ import {
   Redirect,
   Switch
 } from 'react-router-dom'
-import notFound from '../errorPage/notFound';
+import notFound from '../errorPage/notFound'
+
 const { Header, Content, Footer, Sider } = Layout;
 
 
 const SubMenu = Menu.SubMenu;
+
+@observer(['stores'])
 class AppFrame extends React.Component {
   state = {
     collapsed: false,
@@ -23,10 +27,11 @@ class AppFrame extends React.Component {
     console.log(collapsed);
     this.setState({ collapsed });
   }
-
+  componentDidMount() {
+    console.log('props', this.props);
+  }
   render() {
     let props = this.props;
-    console.log('props----', props)
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
@@ -36,7 +41,7 @@ class AppFrame extends React.Component {
         >
           <div className="logo">滴滴优点TOB项目</div>
           <Menu theme="dark" defaultSelectedKeys={[props.location.pathname]} mode="inline">
-            <Menu.Item key="/home/test'">
+            <Menu.Item key="/home/test">
               <Icon type="pie-chart" />
               <Link to='/home/test'><span>HOME</span></Link>  
             </Menu.Item>
