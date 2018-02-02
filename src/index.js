@@ -8,7 +8,7 @@ import {
     Switch,
     withRouter
   } from 'react-router-dom'
-import './index.css'
+import './style/reset.scss'
 import registerServiceWorker from './registerServiceWorker'
 import notFound from './components/errorPage/notFound'
 import routes from './routers'
@@ -28,7 +28,8 @@ let RoutesConfig = () => (
                             <route.component {...props} routes={route.routes} />
                         )}
                     />)}
-                {/* <Route component={notFound}></Route> */}
+                <Redirect from="/home" to="/home/test" />
+                <Route exact component={notFound} />
             </Switch>
         </Router>
     </Provider>

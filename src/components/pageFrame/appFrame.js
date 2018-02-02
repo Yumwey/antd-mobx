@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import logo from './logo.svg'
 import { Layout, Menu, Breadcrumb, Icon } from 'antd'
 import { observer  } from 'mobx-react'
-import './App.css'
+import './App.scss'
 
 import {
   Link,
@@ -41,32 +41,32 @@ class AppFrame extends React.Component {
         >
           <div className="logo">滴滴优点TOB项目</div>
           <Menu theme="dark" defaultSelectedKeys={[props.location.pathname]} mode="inline">
-            <Menu.Item key="/home/test">
+            <Menu.Item key="/test">
               <Icon type="pie-chart" />
-              <Link to='/home/test'><span>HOME</span></Link>  
+              <Link className="router__Link" to='/test'>列表模块案例</Link>  
             </Menu.Item>
-            <Menu.Item key="/home/more">
+            <Menu.Item key="/more">
               <Icon type="desktop" />
-              <Link to={`/home/more`}><span>MORE</span></Link>
+              <Link className="router__Link" to='/more'><span>详细新增案例</span></Link>
             </Menu.Item>
             <SubMenu
               key="sub1"
-              title={<span><Icon type="user" /><span>User</span></span>}
+              title={<span><Icon type="user" /><span>基本组件类</span></span>}
             >
-              <Menu.Item key="3"><Link to='/more'><span>MORE</span></Link></Menu.Item>
-              <Menu.Item key="4">Bill</Menu.Item>
-              <Menu.Item key="5">Alex</Menu.Item>
+              <Menu.Item key="3"><Link to='/more'><span>按钮</span></Link></Menu.Item>
+              <Menu.Item key="4">交互组件</Menu.Item>
+              <Menu.Item key="5">操作组件</Menu.Item>
             </SubMenu>
             <SubMenu
               key="sub2"
-              title={<span><Icon type="team" /><span>Team</span></span>}
+              title={<span><Icon type="team" /><span>表单组</span></span>}
             >
-              <Menu.Item key="6">Team 1</Menu.Item>
-              <Menu.Item key="8">Team 2</Menu.Item>
+              <Menu.Item key="6">验证表单</Menu.Item>
+              <Menu.Item key="8">多功能表单</Menu.Item>
             </SubMenu>
             <Menu.Item key="9">
               <Icon type="file" />
-              <span>File</span>
+              <Link className="router__Link" to='/404'>404 or ERROR</Link>  
             </Menu.Item>
           </Menu>
         </Sider>

@@ -6,26 +6,18 @@ import notFound from '../components/errorPage/notFound';
 
 const frameRouter = [
     {
-        path:'/home',
+        path:'/',
         component : appFrame,
         routes: [
             {
-                path: '/home/test',
+                path: '/test',
                 component: Test
             },
             {
-                path:'/home/more',
-                component: More
-            },
-            {
-                path:'/home/name',
+                path:'/more',
                 component: More
             }
         ]
-    },
-    {
-        path:'/more',
-        component: More
     }
 ]
 
