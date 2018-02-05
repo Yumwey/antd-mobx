@@ -3,6 +3,7 @@ import logo from './logo.svg'
 import { Layout, Menu, Breadcrumb, Icon } from 'antd'
 import { observer  } from 'mobx-react'
 import './App.scss'
+import NProgressComponent from '@components/NProgress/NProgress'
 
 import {
   Link,
@@ -32,6 +33,7 @@ class AppFrame extends React.Component {
   }
   render() {
     let props = this.props;
+    console.log('--',props)
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
@@ -43,11 +45,15 @@ class AppFrame extends React.Component {
           <Menu theme="dark" defaultSelectedKeys={[props.location.pathname]} mode="inline">
             <Menu.Item key="/test">
               <Icon type="pie-chart" />
-              <Link className="router__Link" to='/test'>列表模块案例</Link>  
+              <span>
+                <Link className="router__Link" to='/test'>列表模块案例</Link>
+              </span>
             </Menu.Item>
             <Menu.Item key="/more">
               <Icon type="desktop" />
-              <Link className="router__Link" to='/more'><span>详细新增案例</span></Link>
+              <span>
+                <Link className="router__Link" to='/more'><span>详细新增案例</span></Link>
+              </span>
             </Menu.Item>
             <SubMenu
               key="sub1"
@@ -66,7 +72,9 @@ class AppFrame extends React.Component {
             </SubMenu>
             <Menu.Item key="9">
               <Icon type="file" />
-              <Link className="router__Link" to='/404'>404 or ERROR</Link>  
+              <span>
+                <Link className="router__Link" to='/404'>404 or ERROR</Link>  
+              </span>
             </Menu.Item>
           </Menu>
         </Sider>
@@ -78,15 +86,17 @@ class AppFrame extends React.Component {
                 <Breadcrumb.Item>Bill</Breadcrumb.Item>
               </Breadcrumb>
               <div style={{ padding: 24, background: '#fff', minHeight: 'calc(100vh - 160px)' }}>
-              <Switch>
-                {props.routes.map((childRoute, index) => (<Route 
-                      key={index}
-                      path={childRoute.path}
-                      render={ props => (<childRoute.component {...props} />) }
-                    />)
-                  )}
-                <Route component={notFound}></Route>
-                </Switch>
+                <NProgressComponent location={props.location.pathname}>
+                  <Switch>
+                    {props.routes.map((childRoute, index) => (<Route 
+                          key={index}
+                          path={childRoute.path}
+                          render={ props => (<childRoute.component {...props} />) }
+                        />)
+                      )}
+                    <Route component={notFound}></Route>
+                  </Switch>
+                </NProgressComponent>
               </div>
             </Content>
         </Layout>

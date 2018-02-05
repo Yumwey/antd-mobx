@@ -8,28 +8,28 @@ import {
     Switch,
     withRouter
   } from 'react-router-dom'
-import './style/reset.scss'
-import registerServiceWorker from './registerServiceWorker'
-import notFound from './components/errorPage/notFound'
-import routes from './routers'
-import stores from './stores'
+import '@root/style/reset.scss'
+import registerServiceWorker from '@root/registerServiceWorker'
+import notFound from '@components/errorPage/notFound'
+import routes from '@root/routers'
+import stores from '@root/stores'
 import { Provider } from 'mobx-react'
 
 let RoutesConfig = () => (
     <Provider stores={stores}>
         <Router>
             <Switch>
-                {routes.map((route, index) => 
-                    <Route
-                        key={index}
-                        path={route.path}
-                        exact={route.exact}
-                        render={ props => (
-                            <route.component {...props} routes={route.routes} />
-                        )}
-                    />)}
-                <Redirect from="/home" to="/home/test" />
-                <Route exact component={notFound} />
+                    {routes.map((route, index) => 
+                        <Route
+                            key={index}
+                            path={route.path}
+                            exact={route.exact}
+                            render={ props => (
+                                <route.component {...props} routes={route.routes} />
+                            )}
+                        />)}
+                    {/* <Redirect from="/home" to="/home/test" /> */}
+                    {/* <Route exact component={notFound} /> */}
             </Switch>
         </Router>
     </Provider>

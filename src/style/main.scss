@@ -1,0 +1,13 @@
+
+@import './colors.scss';
+
+//项目主样式
+
+.UDIAN {
+  .router__Link {
+    color: rgba(255, 255, 255, 0.65);
+    &:focus {
+      text-decoration: none;
+    }
+  }
+}
