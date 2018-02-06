@@ -33,7 +33,7 @@ class AppFrame extends React.Component {
   }
   render() {
     let props = this.props;
-    console.log('--',props)
+    console.log('state',this.stores)
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Sider

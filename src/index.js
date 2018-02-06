@@ -19,17 +19,17 @@ let RoutesConfig = () => (
     <Provider stores={stores}>
         <Router>
             <Switch>
-                    {routes.map((route, index) => 
-                        <Route
-                            key={index}
-                            path={route.path}
-                            exact={route.exact}
-                            render={ props => (
-                                <route.component {...props} routes={route.routes} />
-                            )}
-                        />)}
-                    {/* <Redirect from="/home" to="/home/test" /> */}
-                    {/* <Route exact component={notFound} /> */}
+                {routes.map((route, index) => 
+                    <Route
+                        key={index}
+                        path={route.path}
+                        exact={route.exact}
+                        render={ props => (
+                            <route.component {...props} routes={route.routes} />
+                        )}
+                    />)}
+                {/* <Redirect from="/home" to="/home/test" /> */}
+                {/* <Route exact component={notFound} /> */}
             </Switch>
         </Router>
     </Provider>

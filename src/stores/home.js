@@ -1,9 +1,17 @@
-import { observable } from 'mobx'
 
-class homeStore {
-    @observable homeState = {
-        collapsed: false,
+import { types } from 'mobx-state-tree'
+
+const FrameModel = types.model('FrameModel', {
+    collapsed: types.boolean
+}).actions ( self => ({
+    toggle () {
+        console.log('‘---self---', self)
+        self.collapsed = !self.collapsed
     }
-}
+}))
 
-export default homeStore
+const FrameStore = FrameModel.create('FrameStore', {
+    collapsed: false
+})
+
+export default FrameStore
