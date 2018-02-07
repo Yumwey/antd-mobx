@@ -1,4 +1,4 @@
-import homeStore from './home'
+import homeStore from './homeStore'
 
 const stores = {
     homeStore

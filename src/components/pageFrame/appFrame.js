@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import logo from './logo.svg'
 import { Layout, Menu, Breadcrumb, Icon } from 'antd'
 import { observer  } from 'mobx-react'
+import { getSnapshot } from 'mobx-state-tree'
 import './App.scss'
 import NProgressComponent from '@components/NProgress/NProgress'
+import stores from '../../stores'
 
 import {
   Link,
@@ -19,29 +21,32 @@ const { Header, Content, Footer, Sider } = Layout;
 
 const SubMenu = Menu.SubMenu;
 
-@observer(['stores'])
+@observer
 class AppFrame extends React.Component {
-  state = {
-    collapsed: false,
-  };
-  onCollapse = (collapsed) => {
-    console.log(collapsed);
-    this.setState({ collapsed });
+  componentDidMount () {
+    this.setBreadcrumbs()
   }
-  componentDidMount() {
-    console.log('props', this.props);
+  setBreadcrumbs () {
+    let props = this.props
+    let routeName
+    
+    routeName = props.routes.filter(item => item.path === props.location.pathname)
+    console.log('---props---', props, routeName)
   }
   render() {
-    let props = this.props;
-    console.log('state',this.stores)
+    let props = this.props
+    let homeStore = stores.homeStore
+    console.log('collapsed', homeStore.collapsed)
+    console.log('快照', getSnapshot(homeStore));
+    console.log('props', this.props);
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
           collapsible
-          collapsed={this.state.collapsed}
-          onCollapse={this.onCollapse}
+          collapsed={homeStore.collapsed}
+          onCollapse={homeStore.toggle}
         >
-          <div className="logo">滴滴优点TOB项目</div>
+          <div className="logo"> {homeStore.collapsed ? '🐒':'滴滴优点TOB项目'}</div>
           <Menu theme="dark" defaultSelectedKeys={[props.location.pathname]} mode="inline">
             <Menu.Item key="/test">
               <Icon type="pie-chart" />
@@ -82,7 +87,7 @@ class AppFrame extends React.Component {
           <Header style={{ background: '#fff', padding: 0 }} />
             <Content style={{ margin: '0 16px' }}>
               <Breadcrumb style={{ margin: '16px 0' }}>
-                <Breadcrumb.Item>User</Breadcrumb.Item>
+                <Breadcrumb.Item>系统名称</Breadcrumb.Item>
                 <Breadcrumb.Item>Bill</Breadcrumb.Item>
               </Breadcrumb>
               <div style={{ padding: 24, background: '#fff', minHeight: 'calc(100vh - 160px)' }}>
@@ -91,7 +96,7 @@ class AppFrame extends React.Component {
                     {props.routes.map((childRoute, index) => (<Route 
                           key={index}
                           path={childRoute.path}
-                          render={ props => (<childRoute.component {...props} />) }
+                          render={ props => (<childRoute.component name={childRoute.name} {...props} />) }
                         />)
                       )}
                     <Route component={notFound}></Route>

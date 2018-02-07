@@ -13,10 +13,10 @@ import registerServiceWorker from '@root/registerServiceWorker'
 import notFound from '@components/errorPage/notFound'
 import routes from '@root/routers'
 import stores from '@root/stores'
-import { Provider } from 'mobx-react'
+// import { Provider } from 'mobx-react'
 
 let RoutesConfig = () => (
-    <Provider stores={stores}>
+    // <Provider stores={stores}>
         <Router>
             <Switch>
                 {routes.map((route, index) => 
@@ -32,7 +32,7 @@ let RoutesConfig = () => (
                 {/* <Route exact component={notFound} /> */}
             </Switch>
         </Router>
-    </Provider>
+    // </Provider>
 )
 ReactDOM.render(<RoutesConfig />, document.getElementById('root'));
 registerServiceWorker();

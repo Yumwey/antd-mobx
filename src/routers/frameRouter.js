@@ -11,10 +11,12 @@ const frameRouter = [
         routes: [
             {
                 path: '/test',
+                name: '列表模块案例',
                 component: Test
             },
             {
                 path:'/more',
+                name: '详细新增案例',
                 component: More
             }
         ]

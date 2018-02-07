@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-
-export default class Test  extends Component {
+import { observer  } from 'mobx-react'
+import stores from '../stores'
+class Test  extends Component {
+    componentDidMount () {
+        console.log('TEST', stores);
+    }
     render() {
-        console.log('TEST');
         return (
             <div>TEST!</div>
         )
     }
 }
+export default Test
