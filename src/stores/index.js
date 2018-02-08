@@ -1,7 +1,13 @@
 import homeStore from './homeStore'
+import testStore from './testStore'
 
 const stores = {
-    homeStore
+    homeStore,
+    testStore
 }
 
 export default stores;
+
+export {
+    homeStore, testStore
+}

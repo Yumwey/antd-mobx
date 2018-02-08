@@ -35,4 +35,30 @@
   .d__ib {
     display: inline-block;
   }
+  table {
+    border-radius: 0;
+    
+    thead {
+      th {
+        background: $C_ebedf0;
+        border:1px solid $C_dedede;
+        border-right: 0;
+        &:last-of-type {
+          border-right: 1px solid $C_dedede;
+        }
+      }
+    }
+    tbody {
+      tr {
+        td {
+          border:1px solid $C_dedede;
+          border-right: 0;
+          border-top:0;
+          &:last-of-type {
+            border-right: 1px solid $C_dedede;
+          }
+        }
+      }
+    }
+  }
 }

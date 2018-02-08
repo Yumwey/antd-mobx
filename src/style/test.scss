@@ -1,0 +1,26 @@
+
+@import './main.scss';
+
+.main {
+    .main__drop {
+        padding: 10px 40px 0 40px;
+        .main_drop--dom {
+            color: $C_222;
+            margin-left: 10px;
+            i {
+                font-size: 12px;
+                margin-left: 5px;
+            }
+        }
+    }
+    .main__search {
+        padding: 30px 40px 10px 40px;
+    }
+    .main__table {
+        padding: 0 40px 10px 40px;
+    }
+    .main__footer {
+        text-align: right;
+        padding: 0 40px 10px 40px;
+    }
+}

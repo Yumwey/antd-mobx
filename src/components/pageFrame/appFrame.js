@@ -42,7 +42,6 @@ class AppFrame extends React.Component {
   render() {
     let props = this.props
     let homeStore = stores.homeStore
-    console.log('快照', getSnapshot(homeStore))
     return (
       <Layout className="h__min_100vh">
         <Sider
