@@ -1,5 +1,6 @@
 @import '~antd/dist/antd.css';
 @import '../../style/main.scss';
+@import '../../style/colors.scss';
 
 html, body {
   overflow: hidden;
@@ -30,4 +31,46 @@ html, body {
   text-align: center;
   line-height: 64px;
   font-size: 700;
+}
+.content {
+  margin: 0 40px;
+  .content__main {
+    padding: 24px;
+    background: #fff;
+    min-height: calc(100vh - 130px);
+    margin-top: 30px;
+  }
+}
+.breadcrumb {
+  display: inline-block;
+  margin-left: 40px;
+}
+.header {
+  .header__user {
+    display: inline-block;
+    position: absolute;
+    right: 40px;
+    .header__user--name {
+      vertical-align: super;
+      margin-left: 10px;
+    }
+  }
+  .header__toggle {
+    display: inline-block;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 18px;
+  }
+}
+
+.header__user--drop--avator {
+  display: inline-block;
+  margin-left: 10px;
+  width: 40px;
+  vertical-align: top;
+}
+.header__user--drop-info {
+  display: inline-block;
+  width: 175px;
+  margin-left: 20px;
 }

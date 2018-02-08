@@ -10,4 +10,29 @@
       text-decoration: none;
     }
   }
+
+  /* height类样式 */
+  .h__min_100vh {
+    min-height: 100vh;
+  }
+  /* width类样式 */
+  .w__p100 {
+    width: 100%；
+  }
+  /* background类样式 */
+  .b__fff {
+    background: $C_fff;
+  }
+  /* margin, padding类样式 */
+  .p__0 {
+    padding: 0;
+  }
+  /*鼠标状态*/
+  .cursor__pointer {
+    cursor: pointer;
+  }
+  /*display*/
+  .d__ib {
+    display: inline-block;
+  }
 }

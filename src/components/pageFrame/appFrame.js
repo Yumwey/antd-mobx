@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import logo from './logo.svg'
-import { Layout, Menu, Breadcrumb, Icon } from 'antd'
+import { Layout, Menu, Breadcrumb, Icon, Avatar, Popover, Button } from 'antd'
 import { observer  } from 'mobx-react'
 import { getSnapshot } from 'mobx-state-tree'
 import './App.scss'
@@ -26,25 +26,29 @@ class AppFrame extends React.Component {
   componentDidMount () {
     this.setBreadcrumbs()
   }
+  componentDidUpdate (prevProps,prevState) {
+    let props = this.props
+    if (props.location.pathname !== prevProps.location.pathname) {
+      this.setBreadcrumbs ()
+    }
+  }
   setBreadcrumbs () {
     let props = this.props
     let routeName
     
     routeName = props.routes.filter(item => item.path === props.location.pathname)
-    console.log('---props---', props, routeName)
+    stores.homeStore.updateBreadcrumbs('', routeName[0].name)
   }
   render() {
     let props = this.props
     let homeStore = stores.homeStore
-    console.log('collapsed', homeStore.collapsed)
-    console.log('快照', getSnapshot(homeStore));
-    console.log('props', this.props);
+    console.log('快照', getSnapshot(homeStore))
     return (
-      <Layout style={{ minHeight: '100vh' }}>
+      <Layout className="h__min_100vh">
         <Sider
+          trigger={null}
           collapsible
           collapsed={homeStore.collapsed}
-          onCollapse={homeStore.toggle}
         >
           <div className="logo"> {homeStore.collapsed ? '🐒':'滴滴优点TOB项目'}</div>
           <Menu theme="dark" defaultSelectedKeys={[props.location.pathname]} mode="inline">
@@ -84,13 +88,38 @@ class AppFrame extends React.Component {
           </Menu>
         </Sider>
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }} />
-            <Content style={{ margin: '0 16px' }}>
-              <Breadcrumb style={{ margin: '16px 0' }}>
+          <Header className="header b__fff p__0" >
+            <div className="header__toggle" onClick={ e => homeStore.toggle()}>
+              { !homeStore.collapsed ? <Icon type="menu-fold" /> : <Icon type="menu-unfold" />}
+            </div>
+            <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item>系统名称</Breadcrumb.Item>
-                <Breadcrumb.Item>Bill</Breadcrumb.Item>
+                {homeStore.breadcrumbs.map((item, i)=> {
+                  return (<Breadcrumb.Item key={i}>{item}</Breadcrumb.Item>)
+                })}
               </Breadcrumb>
-              <div style={{ padding: 24, background: '#fff', minHeight: 'calc(100vh - 160px)' }}>
+              <div className="header__user">
+               <Popover placement="bottomRight"
+                       content={(
+                         <div>
+                          <div className="header__user--drop--avator">
+                                <Avatar size="large" icon="user" />
+                          </div>
+                          <div className="header__user--drop-info">
+                            <p>Hello, 超级管理员 <br />已登录，100小时!</p>
+                            <Button type="danger">退出登录</Button>
+                          </div>
+                        </div>
+                        )
+                       }
+                       trigger="click" >
+                <Avatar size="small" style={{backgroundColor: 'red'}} className="cursor__pointer">B</Avatar>
+                <span className="header__user--name cursor__pointer">超级管理员</span>
+              </Popover>
+            </div>
+          </Header>
+            <Content className="content">
+              <div className="content__main">
                 <NProgressComponent location={props.location.pathname}>
                   <Switch>
                     {props.routes.map((childRoute, index) => (<Route 
