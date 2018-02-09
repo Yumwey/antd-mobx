@@ -3,10 +3,10 @@ import { observer } from 'mobx-react'
 import { getSnapshot } from 'mobx-state-tree'
 import {find as _find}from 'lodash'
 import stores, { testStore } from '../stores'
-import { Input, Menu, Dropdown, Icon, Divider, Table ,Pagination, Modal, Button} from 'antd'
+import { Input, Menu, Dropdown, Icon, Divider, Table ,Pagination, Modal, Button, Popconfirm, notification, message,Avatar} from 'antd'
+import axios from 'axios'
 import '../style/test.scss'
 const Search = Input.Search
-
 
 const mockData = [{
     id: '121',
@@ -20,32 +20,48 @@ const mockData = [{
 }]
 
 const columns = [{
-    title: '姓名',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <a href="#">{text}</a>,
+    title: '头像',
+    dataIndex: 'avatar_url',
+    key: 'avatar_url',
+    width: '10%',
+    render: src => <Avatar src={src} />
   }, {
-    title: '年龄',
-    dataIndex: 'age',
-    key: 'age',
+    title: '名称',
+    dataIndex: 'login',
+    key: 'login',
+    width: '20%'
   }, {
+    title: '类型',
+    dataIndex: 'type',
+    key: 'type',
+    width: '10%',
+  },{
     title: '地址',
-    dataIndex: 'address',
-    key: 'address1',
+    dataIndex: 'html_url',
+    key: 'html_url',
+    width: '30%',
   },{
-    title: '地址1',
-    dataIndex: 'address',
-    key: 'address2',
-  },{
-    title: '地址2',
-    dataIndex: 'address',
-    key: 'address3',
+    title: '得分',
+    dataIndex: 'score',
+    key: 'score',
+    width: '10%',
   }, {
     title: '操作',
     key: 'action',
+    width: '30%',
     render: (text, record) => (
       <span>
-        <a href="#" onClick={testStore.toggleModal}>新增</a>
+        <a href="#" className="m__left_10" onClick={ () => testStore.toggleState('showModal') }>新增</a>
+        <Popconfirm title= {(<span>确定删除<ins style={{color:'red'}}>{record.name}</ins>吗？</span>)} onConfirm={() => {
+            notification.info({
+                message: '删除成功！',
+                description: '数据列表已经更新！',
+            })
+        }} onCancel={() => {
+            message.warning('你已经取消了当前操作！',1);
+        }} okText="是" cancelText="否">
+            <a href="#" className="m__left_10" style={{color:'red'}}>删除</a>
+        </Popconfirm>
       </span>
     ),
   }];
@@ -70,8 +86,18 @@ const columns = [{
 @observer
 class Test  extends Component {
     componentDidMount () {
+        this.getUser()
     }
-    
+    getUser() {
+        testStore.toggleState('tableLoading')
+        axios.get('https://api.github.com/search/users?q=code').then(res => {
+            let data = res.data
+            if (res.status === 200) {
+                testStore.toggleState('tableLoading')
+                testStore.updateData(data)
+            }
+        })
+    }
     setMenu() {
         return (
             <Menu onClick={this.clickHandle} selectedKeys={[testStore.selectInfo.id]}>
@@ -87,10 +113,10 @@ class Test  extends Component {
         stores.testStore.setFilterVal('selectInfo', curSelect)
     }
     handleOk() {
-        testStore.toggleLoading()
+        testStore.toggleState('showLoading');
         setTimeout(()=> {
-            testStore.toggleLoading();
-            testStore.toggleModal();
+            testStore.toggleState('showModal');
+            testStore.toggleState('showLoading');
             Modal.success({
                 title: '添加成功！',
                 content: '您可以在列表中查看',
@@ -98,11 +124,13 @@ class Test  extends Component {
         }, 3000)
     }
     handleCancel() {
-        testStore.toggleModal();
+        testStore.toggleState('showModal');
     }
     render() {
         let testStore = stores.testStore
         console.log('当前快照', getSnapshot(testStore));
+        console.log('props', this.props)
+        let state = getSnapshot(testStore)
         return (
            <div className="main">
             <div className="main__search">
@@ -112,41 +140,48 @@ class Test  extends Component {
                 <span>筛选条件：</span>
                 <Dropdown  overlay={ this.setMenu() } trigger={['click']}>
                     <a className="ant-dropdown-link main_drop--dom" href="#">
-                     {testStore.selectInfo.name}<Icon type="caret-down" />
+                     {state.selectInfo.name}<Icon type="caret-down" />
                     </a>
                 </Dropdown>
                 <Dropdown  overlay={ this.setMenu() } trigger={['click']}>
                     <a className="ant-dropdown-link main_drop--dom" href="#">
-                     {testStore.selectInfo.name}<Icon type="caret-down" />
+                     {state.selectInfo.name}<Icon type="caret-down" />
                     </a>
                 </Dropdown>
                 <Dropdown  overlay={ this.setMenu() } trigger={['click']}>
                     <a className="ant-dropdown-link main_drop--dom" href="#">
-                     {testStore.selectInfo.name}<Icon type="caret-down" />
+                     {state.selectInfo.name}<Icon type="caret-down" />
                     </a>
                 </Dropdown>
             </div>
             <Divider />
             <div className="main__table">
-                <Table columns={columns} dataSource={data} pagination={false} />
+                <Table 
+                    rowKey={record => record.id}
+                    columns={columns}
+                    dataSource={state.tableData.items}
+                    loading={state.tableLoading}
+                    pagination={false}
+                    scroll={{y: this.props.height}}    
+                />
             </div>
             <Divider />
             <div className="main__footer">
                 <Pagination 
                     defaultCurrent={1}
-                    total={data.length}
+                    total={state.tableData.total_count}
                     showTotal={total => `总共 ${total} 数据`}
                     showSizeChanger
                     showQuickJumper />
             </div>
             <Modal
-                visible={testStore.showModal}
+                visible={state.showModal}
                 title="新增"
                 onOk={this.handleOk}
                 onCancel={this.handleCancel}
                 footer={[
                     <Button key="back" onClick={this.handleCancel}>取消</Button>,
-                    <Button key="submit" type="primary" loading={testStore.showLoading} onClick={this.handleOk}>
+                    <Button key="submit" type="primary" loading={state.showLoading} onClick={this.handleOk}>
                       确定
                     </Button>,
                 ]}

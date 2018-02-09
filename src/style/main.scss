@@ -27,6 +27,9 @@
   .p__0 {
     padding: 0;
   }
+  .m__left_10 {
+    margin-left: 10px;
+  }
   /*鼠标状态*/
   .cursor__pointer {
     cursor: pointer;
@@ -54,6 +57,7 @@
           border:1px solid $C_dedede;
           border-right: 0;
           border-top:0;
+          padding: 5px 10px;
           &:last-of-type {
             border-right: 1px solid $C_dedede;
           }

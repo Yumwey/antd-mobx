@@ -3,6 +3,7 @@ import logo from './logo.svg'
 import { Layout, Menu, Breadcrumb, Icon, Avatar, Popover, Button } from 'antd'
 import { observer  } from 'mobx-react'
 import { getSnapshot } from 'mobx-state-tree'
+import PropTypes from 'prop-types'
 import './App.scss'
 import NProgressComponent from '@components/NProgress/NProgress'
 import stores from '../../stores'
@@ -25,6 +26,10 @@ const SubMenu = Menu.SubMenu;
 class AppFrame extends React.Component {
   componentDidMount () {
     this.setBreadcrumbs()
+    this.divHeight = document.querySelector('.content').clientHeight - 366
+    window.onresize = () => {
+      this.divHeight = document.querySelector('.content').clientHeight - 366
+    }
   }
   componentDidUpdate (prevProps,prevState) {
     let props = this.props
@@ -37,7 +42,7 @@ class AppFrame extends React.Component {
     let routeName
     
     routeName = props.routes.filter(item => item.path === props.location.pathname)
-    stores.homeStore.updateBreadcrumbs('', routeName[0].name)
+    stores.homeStore.updateBreadcrumbs('', routeName.length ? routeName[0].name : '' )
   }
   render() {
     let props = this.props
@@ -124,7 +129,7 @@ class AppFrame extends React.Component {
                     {props.routes.map((childRoute, index) => (<Route 
                           key={index}
                           path={childRoute.path}
-                          render={ props => (<childRoute.component name={childRoute.name} {...props} />) }
+                          render={ props => (<childRoute.component name={childRoute.name} {...props} height={this.divHeight} />) }
                         />)
                       )}
                     <Route component={notFound}></Route>
@@ -136,6 +141,10 @@ class AppFrame extends React.Component {
       </Layout>
     );
   }
+}
+
+AppFrame.propTypes = {
+  routes: PropTypes.array
 }
 
 export default AppFrame;
