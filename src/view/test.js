@@ -128,8 +128,6 @@ class Test  extends Component {
     }
     render() {
         let testStore = stores.testStore
-        console.log('当前快照', getSnapshot(testStore));
-        console.log('props', this.props)
         let state = getSnapshot(testStore)
         return (
            <div className="main">
@@ -162,7 +160,7 @@ class Test  extends Component {
                     dataSource={state.tableData.items}
                     loading={state.tableLoading}
                     pagination={false}
-                    scroll={{y: this.props.height}}    
+                    scroll={{y: stores.homeStore.height}}    
                 />
             </div>
             <Divider />

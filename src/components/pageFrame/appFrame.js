@@ -27,8 +27,10 @@ class AppFrame extends React.Component {
   componentDidMount () {
     this.setBreadcrumbs()
     this.divHeight = document.querySelector('.content').clientHeight - 366
+    stores.homeStore.setClilentHeight(this.divHeight);
     window.onresize = () => {
       this.divHeight = document.querySelector('.content').clientHeight - 366
+      stores.homeStore.setClilentHeight(this.divHeight);
     }
   }
   componentDidUpdate (prevProps,prevState) {
@@ -129,7 +131,7 @@ class AppFrame extends React.Component {
                     {props.routes.map((childRoute, index) => (<Route 
                           key={index}
                           path={childRoute.path}
-                          render={ props => (<childRoute.component name={childRoute.name} {...props} height={this.divHeight} />) }
+                          render={ props => (<childRoute.component name={childRoute.name} {...props} />) }
                         />)
                       )}
                     <Route component={notFound}></Route>
