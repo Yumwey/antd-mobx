@@ -1,6 +1,6 @@
 import React from 'react';
 import appFrame from '../components/pageFrame/appFrame';
-import Test from '../view/test';
+import Test from '../view/test/test';
 import More from '../view/more';
 import notFound from '../components/errorPage/notFound';
 

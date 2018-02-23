@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react'
 import { getSnapshot } from 'mobx-state-tree'
 import {find as _find}from 'lodash'
-import stores, { testStore } from '../stores'
+import stores, { testStore } from '../../stores'
 import { Input, Menu, Dropdown, Icon, Divider, Table ,Pagination, Modal, Button, Popconfirm, notification, message,Avatar} from 'antd'
 import axios from 'axios'
-import '../style/test.scss'
+import './test.scss'
+import fetch from '../../utils/fetch'
 const Search = Input.Search
 
 const mockData = [{
@@ -96,6 +97,12 @@ class Test  extends Component {
                 testStore.toggleState('tableLoading')
                 testStore.updateData(data)
             }
+        })
+        fetch.post('/busmove/get', {
+            pageSize: 20,
+            pageNum: 1
+        }).then(res => {
+            console.log('请求结果', res)
         })
     }
     setMenu() {

@@ -85,6 +85,7 @@ function getClientEnvironment(publicUrl) {
       env[key] = JSON.stringify(raw[key]);
       return env;
     }, {}),
+    API_ENV: JSON.stringify(process.argv[2] || 'dev')
   };
 
   return { raw, stringified };
