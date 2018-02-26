@@ -24,12 +24,14 @@ let RoutesConfig = () => (
                         key={index}
                         path={route.path}
                         exact={route.exact}
-                        render={ props => (
-                            <route.component {...props} routes={route.routes} />
-                        )}
+                        render={ props => {
+                            if (props.location.pathname === '/') {
+                                return <Redirect to="/test" /> 
+                            } else {
+                                 return  <route.component {...props} routes={route.routes} />
+                            }
+                        }}
                     />)}
-                {/* <Redirect from="/home" to="/home/test" /> */}
-                {/* <Route exact component={notFound} /> */}
             </Switch>
         </Router>
     // </Provider>
