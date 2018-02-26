@@ -41,7 +41,7 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 
 // Tools like Cloud9 rely on this.
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
-const HOST = 'vehicle.dotransit.net';
+const HOST = 'vehicle.dotransit.net';   //定制化，默认：process.env.HOST || '0.0.0.0'
 
 if (process.env.HOST) {
   console.log(
