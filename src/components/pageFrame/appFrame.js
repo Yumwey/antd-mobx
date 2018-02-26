@@ -6,6 +6,7 @@ import { getSnapshot } from 'mobx-state-tree'
 import PropTypes from 'prop-types'
 import './App.scss'
 import NProgressComponent from '@components/NProgress/NProgress'
+import NavTabComponent  from '@components/navTab/navTab'
 import stores from '../../stores'
 
 import {
@@ -49,6 +50,7 @@ class AppFrame extends React.Component {
   render() {
     let props = this.props
     let homeStore = stores.homeStore
+    console.log('props', props)
     return (
       <Layout className="h__min_100vh">
         <Sider
@@ -124,6 +126,7 @@ class AppFrame extends React.Component {
               </Popover>
             </div>
           </Header>
+          <NavTabComponent menu={props.location} routes={props.routes} />
             <Content className="content">
               <div className="content__main">
                 <NProgressComponent location={props.location.pathname}>
