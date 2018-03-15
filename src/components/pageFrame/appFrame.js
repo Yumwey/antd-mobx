@@ -59,7 +59,7 @@ class AppFrame extends React.Component {
           collapsed={homeStore.collapsed}
         >
           <div className="logo"> {homeStore.collapsed ? '🐒':'滴滴优点TOB项目'}</div>
-          <Menu theme="dark" defaultSelectedKeys={[props.location.pathname]} mode="inline">
+          <Menu theme="dark" defaultSelectedKeys={[props.location.pathname]} selectedKeys={[props.location.pathname]}  mode="inline">
             <Menu.Item key="/test">
               <Icon type="pie-chart" />
               <span>

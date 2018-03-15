@@ -12,6 +12,7 @@ import './navTab.scss'
 import classnames from 'classnames'
 import { observer  } from 'mobx-react'
 import { getSnapshot } from 'mobx-state-tree'
+import { homeStore } from '../../stores'
 import {
     Link
   } from 'react-router-dom'
@@ -24,7 +25,7 @@ class NavTabComponent extends React.Component {
     componentWillMount () {
         let menu, props = this.props
         menu = {
-            title: this.getPathName(props.routes),
+            title: this.getPathName(props.routes) || 'Not found',
             path: props.menu.pathname,
             active: true
         } 
@@ -64,7 +65,7 @@ class NavTabComponent extends React.Component {
             homeStore.setNavTabsActive(exsitArr[0])
         } else {
             newMenu = {
-                title: this.getPathName(this.props.routes),
+                title: this.getPathName(this.props.routes) || 'Not found',
                 active: true,
                 path: pathname
             }
@@ -73,12 +74,16 @@ class NavTabComponent extends React.Component {
         }
 
     }
-    deleteNav (e, item) {
+    deleteNav (e, item, i) {
+        let navs = getSnapshot(homeStore.navTabs),
+            navLen = navs.length
         e.stopPropagation()
-        if (getSnapshot(homeStore.navTabs).length === 1) return;
+        if (navLen === 1) return;
         if (item.active) {
+            console.log(i)
+            console.log(i === navLen - 1 ,navs[navLen- (i === navLen - 1 ? 2 : 1)].path)
             this.context.router.history.push({
-                pathname: getSnapshot(homeStore.navTabs)[getSnapshot(homeStore.navTabs).length-1].path
+                pathname: navs[navLen- (i === navLen - 1 ? 2 : 1)].path
             })
         } 
         homeStore.setNavTabs('remove', item)
@@ -93,7 +98,7 @@ class NavTabComponent extends React.Component {
                         return (<li className={clsName} key={idx}>
                             <div>
                                 <Link className="navTab__menus--Link" to={item.path} >{item.title}</Link>
-                                <i className="udianfont udian-wushuju-" onClick={ (e) => this.deleteNav(e, item)}></i>
+                                <i className="udianfont udian-wushuju-" onClick={ (e) => this.deleteNav(e, item, idx)}></i>
                             </div>
                         </li>)
                     })}
@@ -101,7 +106,7 @@ class NavTabComponent extends React.Component {
             </div>)
     }
 }
-import { homeStore } from '../../stores';
+
 
 NavTabComponent.propTypes = {
     menu: PropTypes.object,
